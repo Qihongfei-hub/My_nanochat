@@ -183,7 +183,8 @@ def main():
     parser.add_argument('--step', type=int, default=None, help='Model step to load (default = last)')
     parser.add_argument('--max-per-task', type=int, default=-1, help='Max examples per CORE task (-1 = all)')
     parser.add_argument('--device-batch-size', type=int, default=32, help='Per-device batch size for BPB evaluation')
-    parser.add_argument('--split-tokens', type=int, default=40*524288, help='Number of tokens to evaluate per split for BPB')
+    #parser.add_argument('--split-tokens', type=int, default=40*524288, help='Number of tokens to evaluate per split for BPB')
+    parser.add_argument('--split-tokens', type=int, default=1*524288, help='Number of tokens to evaluate per split for BPB')
     parser.add_argument('--device-type', type=str, default='', help='cuda|cpu|mps (empty = autodetect)')
     args = parser.parse_args()
 
@@ -240,7 +241,7 @@ def main():
             print0("\nConditioned samples:")
             for prompt in prompts:
                 tokens = tokenizer(prompt, prepend="<|bos|>")
-                sample, _ = engine.generate_batch(tokens, num_samples=1, max_tokens=16, temperature=0)  #qhf
+                sample, _ = engine.generate_batch(tokens, num_samples=1, max_tokens=60, temperature=0.75)  #qhf
                 sample_str = tokenizer.decode(sample[0])
                 print0("-" * 80)
                 print0(sample_str)
@@ -248,7 +249,7 @@ def main():
 
             print0("\nUnconditioned samples:")
             tokens = tokenizer("", prepend="<|bos|>")
-            uncond, _ = engine.generate_batch(tokens, num_samples=8, max_tokens=128, temperature=1.0)  #qhf
+            uncond, _ = engine.generate_batch(tokens, num_samples=8, max_tokens=128, temperature=0.75)  #qhf
             for sample in uncond:
                 sample_str = tokenizer.decode(sample)
                 print0("-" * 80)

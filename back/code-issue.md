@@ -74,3 +74,12 @@ Builder
 - 评估时 某些任务（如 squad、boolq 等 10-shot 任务）需要更长的上下文，超过了 5120
 
 python scripts/base_eval.py --max-seq-len=2048 ...
+
+
+
+
+
+
+##  
+## ##########################################################################
+python -m  scripts.base_eval --device-batch-size=16 --max-seq-len=204  

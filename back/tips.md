@@ -1,6 +1,24 @@
 
 # git command tips
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Qihongfei-hub/My_nanochat.git
+git push -u origin main
 
+
+#
+import swanlab as wandb
+# qhf 
+import swanlab as wandb
+use_dummy_wandb = args.run == "dummy" or not master_process
+wandb_run = DummyWandb() if use_dummy_wandb else wandb.init(project="nanochat", name=args.run, config=user_config)
+
+##
+(my_project_env) C:\Users\hongf\miniconda3.1\envs\nana_GPT\nanochat>pip install wandb==0.18.3
+(my_project_env) C:\Users\hongf\miniconda3.1\envs\nana_GPT\nanochat>pip install swanlab==0.6.8
+##
 
 
 
@@ -96,6 +114,14 @@ step 07800/22000 (35.45%) | loss: 3.764075 | lrm: 0.99 | dt: 448.15ms | tok/sec:
 step 21800/22000 (99.09%) | loss: 3.455044 | lrm: 0.06 | dt: 449.69ms | tok/sec: 36,434 | bf16_mfu: 0.00 | epoch: 1 pq: 11 rg: 28 | total time: 163.47m | eta: 1.5m
 step 21900/22000 (99.55%) | loss: 3.477977 | lrm: 0.06 | dt: 448.95ms | tok/sec: 36,493 | bf16_mfu: 0.00 | epoch: 1 Step 22000 | Validation bpb: 1.057228
 
+## for 3rd train
+python -m scripts.base_train --depth=16 --save-every=4000 --num-iterations=200000 --run=dummy --head-dim=64 --window-pattern=L --max-seq-len=512 --device-batch-size=8 --total-batch-size=16384 --eval-tokens=524288 --core-metric-every=-1 --sample-every=4000 --log-every=50 --eval-every=2000 --max-seq-len=512 --warmup-steps=2000 --warmdown-ratio=0.9 --aspect-ratio=64
+
+0  NVIDIA GeForce RTX 4070 ...  WDDM  |   00000000:01:00.0 Off |                  N/A |
+| N/A   77C    P0             93W /   94W |    7427MiB /   8188MiB |
+
+#
+python -m scripts.base_train --depth=48 --save-every=10000 --num-iterations=320000 --run=dummy --head-dim=64 --window-pattern=L --max-seq-len=512 --device-batch-size=2 --total-batch-size=16384 --eval-tokens=524288 --core-metric-every=-1 --sample-every=8000 --log-every=1 --eval-every=8000 --max-seq-len=512 --warmup-steps=6000 --warmdown-ratio=0.9 --aspect-ratio=32 --run=nanochat
 
 
 
@@ -600,3 +626,51 @@ python -m scripts.base_train --depth=12 --save-every=4000 --num-iterations=22000
 ## train -2 总结
 loss ~3.0     之前是~3.4
 
+
+
+##
+            engine = Engine(model, tokenizer)
+            print0("\nConditioned samples:")
+            for prompt in prompts:
+                tokens = tokenizer(prompt, prepend="<|bos|>")
+                sample, _ = engine.generate_batch(tokens, num_samples=1, max_tokens=60, `temperature=0.75`)  `#qhf`
+                sample_str = tokenizer.decode(sample[0])
+                print0("-" * 80)
+                print0(sample_str)
+                samples.append(sample_str)
+
+            print0("\nUnconditioned samples:")
+            tokens = tokenizer("", prepend="<|bos|>")
+            uncond, _ = engine.generate_batch(tokens, num_samples=8, max_tokens=128, `temperature=0.75`)  `#qhf`
+            for sample in uncond:
+                sample_str = tokenizer.decode(sample)
+
+##
+
+ #parser.add_argument('--split-tokens', type=int, default=40*524288, help='Number of tokens to evaluate per split for BPB')
+parser.add_argument('--split-tokens', type=int, default=1*524288, help='Number of tokens to evaluate per split for BPB')
+
+##
+python -m scripts.base_eval --device-batch-size=16 --max-seq-len=2048 
+
+
+
+
+##
+
+                                                       █████                █████
+                                                      ░░███                ░░███
+     ████████    ██████   ████████    ██████   ██████  ░███████    ██████  ███████
+    ░░███░░███  ░░░░░███ ░░███░░███  ███░░███ ███░░███ ░███░░███  ░░░░░███░░░███░
+     ░███ ░███   ███████  ░███ ░███ ░███ ░███░███ ░░░  ░███ ░███   ███████  ░███
+     ░███ ░███  ███░░███  ░███ ░███ ░███ ░███░███  ███ ░███ ░███  ███░░███  ░███ ███
+     ████ █████░░████████ ████ █████░░██████ ░░██████  ████ █████░░███████  ░░█████
+    ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░░░   ░░░░░
+
+
+## 3rd train 
+## 
+## ###############################
+###
+##  ********************************************************
+##  ******************************************************
