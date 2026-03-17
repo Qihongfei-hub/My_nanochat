@@ -463,7 +463,7 @@ while True:
         for prompt in prompts:
             tokens = tokenizer(prompt, prepend="<|bos|>")
             with disable_fp8(orig_model):
-                sample, _ = engine.generate_batch(tokens, num_samples=1, max_tokens=25, temperature=0.75,top_k=40)
+                sample, _ = engine.generate_batch(tokens, num_samples=1, max_tokens=25, temperature=0.75,top_k=40) #qhf
             print0(tokenizer.decode(sample[0]))
         model.train()
 
