@@ -114,8 +114,16 @@ step 07800/22000 (35.45%) | loss: 3.764075 | lrm: 0.99 | dt: 448.15ms | tok/sec:
 step 21800/22000 (99.09%) | loss: 3.455044 | lrm: 0.06 | dt: 449.69ms | tok/sec: 36,434 | bf16_mfu: 0.00 | epoch: 1 pq: 11 rg: 28 | total time: 163.47m | eta: 1.5m
 step 21900/22000 (99.55%) | loss: 3.477977 | lrm: 0.06 | dt: 448.95ms | tok/sec: 36,493 | bf16_mfu: 0.00 | epoch: 1 Step 22000 | Validation bpb: 1.057228
 
+## for 4th train
+python -m scripts.base_train --depth=32 --save-every=4000 --num-iterations=200000 --run=dummy --head-dim=32 --window-pattern=L --max-seq-len=512 --device-batch-size=8 --total-batch-size=16384 --eval-tokens=524288 --core-metric-every=-1 --sample-every=4000 --log-every=50 --eval-every=2000 --max-seq-len=512 --warmup-steps=2000 --warmdown-ratio=0.9 --aspect-ratio=64
+
+python -m scripts.base_train --depth=32 --save-every=4000 --num-iterations=800000 --run=dummy --head-dim=32 --window-pattern=L --max-seq-len=512 --device-batch-size=8 --total-batch-size=8192 --eval-tokens=524288 --core-metric-every=-1 --sample-every=4000 --log-every=50 --eval-every=2000 --max-seq-len=512 --warmup-steps=4000 --warmdown-ratio=0.9 --aspect-ratio=64
+
+--run=Nanochat
+
 ## for 3rd train
 python -m scripts.base_train --depth=16 --save-every=4000 --num-iterations=200000 --run=dummy --head-dim=64 --window-pattern=L --max-seq-len=512 --device-batch-size=8 --total-batch-size=16384 --eval-tokens=524288 --core-metric-every=-1 --sample-every=4000 --log-every=50 --eval-every=2000 --max-seq-len=512 --warmup-steps=2000 --warmdown-ratio=0.9 --aspect-ratio=64
+
 
 0  NVIDIA GeForce RTX 4070 ...  WDDM  |   00000000:01:00.0 Off |                  N/A |
 | N/A   77C    P0             93W /   94W |    7427MiB /   8188MiB |
